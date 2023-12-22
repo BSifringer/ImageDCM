@@ -66,5 +66,6 @@ torchvision==0.13.1
 tqdm==4.64.1
 typing_extensions==4.4.0
 urllib3==1.26.12
+wandb==0.16.1
 Werkzeug==2.2.2
 zipp==3.9.0
