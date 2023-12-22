@@ -1,0 +1,19 @@
+# @package _global_
+defaults:
+  - override /trainer: base_trainer
+  - override /data: base_data
+
+trainer:
+  exp: _debug
+  epochs: 1
+  drop_last: false
+  use_clearml: false
+  use_wandb: false
+
+data:
+  chunksize: 1000
+  use_parquet: false
+
+debug: False  # This debug is used for unit tests and jupyter behavior
+
+# Run this experiment with: python run.py +exps=debug_mode

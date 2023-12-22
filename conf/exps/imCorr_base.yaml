@@ -1,0 +1,7 @@
+# @package _global_
+defaults:
+  - override /trainer: choice_corr
+  - override /data: image_data
+
+# Run this experiment with: python run.py +exps=imCorr_base
+# Defined as Exp for multi-run conveniency

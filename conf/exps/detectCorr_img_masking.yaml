@@ -1,0 +1,11 @@
+# @package _global_
+defaults:
+  - override /trainer: choice_detect_corr
+  - override /data: image_data
+
+trainer:
+  exp: '_only'
+  tabular_masking: 'remove'
+  masked_tabular_list: ['Man','Barrier','Intervention']
+  image_masking: 'masked_only'
+# Run this experiment with: python run.py +exps=imCorr_masking

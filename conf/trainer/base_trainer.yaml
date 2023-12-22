@@ -1,0 +1,158 @@
+name: base_trainer${trainer.exp}
+platform: local
+mode: train
+exp: '' #  trainer name sensitive (hydra folders, etc..)
+
+seed: 0
+rank: 0
+use_clearml: false
+use_wandb: true
+use_tensorboard: true
+cuda: false
+# ml_exp_name: ${trainer.name}_${data.name}_${trainer.freeze_on_epoch}_${trainer.unfreeze_on_epoch}_${trainer.freeze_dcm}_${trainer.ext}
+# ml_exp_name: ${trainer.name}_${data.name}_l2${trainer.param.l2_lbda}_KL${trainer.param.KL_lbda}_cce${trainer.param.cce_lbda}_${trainer.ext}
+ml_exp_name: ${trainer.name}_${data.name}_augment_${data.img_transforms}_mask_${trainer.image_masking}_${data.controlled_mask_p}_${data.controlled_mask_scale}
+ext: '' # to dinstinguish ClearML runs
+type: 'survey'
+
+#results_dir: ~/Documents/Local_PHD/Research/ImageCorrelation/results # the ~is not understood by hydra
+results_dir: /data/brian-data/ImageDCM_Correlation/results
+output_dir: ${trainer.results_dir}/${trainer.name}_${data.name}
+path: 'MIT_data'
+sync_key: ${now:%Y-%m-%d_%H-%M}
+
+# Default Checkpointpath
+checkpointpath : ${trainer.output_dir}/checkpoint.pt
+checkpointpath_save: # Built in the code fpr now, best as cfg
+model_registry: model_registery.json
+load_model_class: 
+load_best_model: false
+optimizer: Adam # Adam, SGD
+# preload_dcm_weights: ''
+# dcm_model_path: 'results/base_trainer_base_data_default/2022-10-10_21-54/checkpoint_epoch_24.pt'
+
+# HyperParams
+epochs: 15
+batch_size: 1024
+loss: ['cce']
+
+# Cuda memory difficulties during hessian computing, requires smaller batch
+test_batchsize_multiplier: 0.5
+
+# Batch and data
+drop_last: false
+shuffle: false
+num_workers: 0
+freeze_on_epoch:
+unfreeze_on_epoch:
+freeze_dcm: False
+fuse_image_detection_labels: True # merge sum total number of tiles in image. Set False to keep dim seperated per alternative
+# unfreeze_choice_layer is in encParam
+
+
+# --- TODO: refactor in base_data config --- 
+# Masking of tabular or images: None, remove, replace, reduce
+tabular_masking:
+# Masking: None, masked_only, erase, composed
+image_masking:
+black_masking: false
+add_empty_tiles: false
+# List of variables on which mask is applied
+masked_tabular_list:
+masked_tiles_list:
+# Replacing or reducing Strategies: None, age, job, old, young, male, female ... (to implement)
+tabular_replacing:
+image_replacing:
+# Tile resizing:
+tile_resize: false
+tile_resize_scale: [0.7,1.3]
+# Background transform: # Do not add color jitter
+background_transforms: false
+
+
+
+# Some Infered by the code, callable once datasets are instintiated
+param:
+  n_betas:
+  n_Z:
+  lr: 0.001
+  momentum: 0
+  n_neurons: 100
+  n_layers: 2
+  dropout_prob: 0.2
+
+  cce_lbda: 1 # choice loss
+  cce_dcm_lbda: 2 # choice loss
+  bce_lbda: 1 # choice loss (binary setting)
+  l2_lbda: 10 # mse detection loss
+  sigmoid_lbda: 2 # sigmoid detection loss
+  l1_lbda: 0 # l1 weight regularizer, excludes all layers containing the name 'utility'
+  weight_decay: 0 # l2 weight regularizer, excludes tabular models (double check)
+  prior_lbda:  0.1 # prior loss in KL  => Investigate
+  KL_lbda: 1 # KL mutual exclusive regularizer
+  cce2_lbda: 1 # latent choice loss
+  contrast_lbda: 1
+  beta_lbda: 1
+  masked_lbda: 1
+  detected_masked_lbda: 0.2
+  reverse_lbda_multiply: 1e-8
+
+# Log and save settings
+log:
+  every_n_iter: 1000 #iteration logging
+  check_every_n_epoch: 5 # checkpointing
+
+eval:
+  # creates ratios for normalizing and comparing purposes
+  normalizing_feature: Girl
+  # measures beta values versus representation term contributions
+  beta_r_stats: false # occasionally fails - need to investigate
+  ## 3 Implemented Methods for stds from Hessian:
+  # diagonal: take only diagonal elements of the hessian before inverting
+  # naive: invert the full hessian with no pre-conditioning on the values
+  # greedy: inverting some values may create  instability in the process.
+  #         Greedy method excludes data from the hessian before inversion, then sets exluded to nan
+  hessian_method: 'greedy'
+
+plot:
+  activate_TkAgg: false
+  save_fig: true
+  show_fig: false
+  save_fig_path: ${trainer.output_dir}/figures
+
+
+### Latest model - Latent space KL
+encoder_version: 1
+encParam:
+  # linear, sequential, (identity)
+  detect_layer: 'linear'
+  choice_layer: 'linear'
+  # tanh, relu, identity
+  activation: 'relu'
+  log_sigma_sq_scaler: 0 # for the KL loss, 0 gives a variance of 1! But -5 will ruin training => Investigate
+  sampling: True
+  detect2Choice: False
+  added_latent_dim: 2
+  latent_dim_multiplier: 1
+  seq_scale: 4 # muliply hidden nodes for sequential module
+  reversal : False
+  reverse_epoch:
+  unfreeze_choice_layer: False
+
+gainParam:
+  sigma: 0.25
+  omega: 100
+  use_gradcam: true
+
+## When using Submitit manually:
+slurm:
+  nodes: 1 # 2
+  gpus_per_node: 1  # max 2
+  cpus_per_task: 10
+  ntasks: 1
+  mem: 0 # in GiB 48
+  timeout: 48 # hours
+  partition: gpu
+  qos: gpu
+  account: vita # optional
+  reservation: VITA

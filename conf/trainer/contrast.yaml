@@ -1,0 +1,22 @@
+### !! Must run with data=image_data  ## Add assertion errors ?
+defaults:
+  - choice_detect
+
+name: contrast${trainer.exp}
+type: choice_detect_corr
+
+loss: ['cce','l2', 'contrast', 'l1']
+im_model: contrast
+fuse_image_detection_labels: False
+
+
+param: 
+  l2_lbda: 0.0001
+  contrast_lbda: 0.1
+
+encParam:
+  detect2Choice: True
+  detect_layer: 'linear'
+  choice_layer: 'sequential'
+  activation: 'relu'
+  sampling: False

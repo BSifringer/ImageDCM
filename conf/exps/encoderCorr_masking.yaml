@@ -1,0 +1,27 @@
+# @package _global_
+defaults:
+  - override /trainer: encoder_corr
+  - override /data: image_data
+
+trainer:
+  exp: '_ver3_remove'
+  tabular_masking: 'remove'
+  masked_tabular_list: ['CrossingSignal']
+  param:
+    l2_lbda: 10
+    cce_lbda: 1
+    prior_lbda: 0.01
+    KL_lbda: 0
+    l1_lbda: 0
+
+  encoder_version: 2
+  encParam:
+    detect_layer: sequential
+    choice_layer: sequential
+    activation: tanh
+    log_sigma_sq_scaler: 0
+    sampling: True
+    detect2Choice: False
+    added_latent_dim: 2
+    latent_dim_multiplier: 1
+# Run this experiment with: python run.py +exps=encoder_masking

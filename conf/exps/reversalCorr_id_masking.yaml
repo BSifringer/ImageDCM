@@ -1,0 +1,11 @@
+# @package _global_
+defaults:
+  - override /trainer: reversal_corr_id
+  - override /data: image_data
+
+trainer:
+  exp: '_remove'
+  tabular_masking: 'remove'
+  masked_tabular_list: ['Man','Barrier','Intervention']
+
+# Run this experiment with: python run.py +exps=imCorr_masking

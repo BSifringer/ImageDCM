@@ -1,0 +1,15 @@
+# @package _global_
+defaults:
+  - override /hydra/job_logging: custom
+  - override /trainer: base_trainer
+  - override /data: base_data
+
+trainer:
+  output_dir: /Users/brian/Documents/Local_PHD/Research/ImageCorrelation/results
+  use_wandb: False
+  use_clearml: False
+  use_tensorboard: False
+  cuda: False
+
+data:
+  raw_path:  /Users/brian/Documents/Local_PHD/Data/moralMachine_datasets

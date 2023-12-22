@@ -1,0 +1,23 @@
+# Must be run with a pre-trained and frozen, or fix loss terms
+defaults:
+  - choice_detect_corr
+
+name: contrast_corr${trainer.exp}
+type: choice_detect_corr
+
+loss: ['cce','l2', 'contrast', 'l1']
+im_model: contrast
+fuse_image_detection_labels: False
+
+freeze_on_epoch: 0
+unfreeze_on_epoch: 8
+
+param: 
+  l2_lbda: 0.0001
+
+encParam:
+  detect2Choice: False  # Potentially re-work your loss terms
+  detect_layer: 'linear' # Identity not supported
+  choice_layer: 'sequential'
+  activation: 'relu'
+  sampling: False

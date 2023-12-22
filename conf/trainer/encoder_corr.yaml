@@ -1,0 +1,9 @@
+### !! Must run with data=image_data  ## Add assertion errors ?
+defaults:
+  - choice_detect_corr
+
+name: encoder_corr${trainer.exp}
+type: choice_detect_corr
+
+loss: ['cce','l2', 'prior', 'KL', 'l1']
+im_model: encoder

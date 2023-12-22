@@ -1,0 +1,6 @@
+defaults:
+  - base_trainer
+
+name: binary_tab${trainer.exp}
+
+loss: ['binary']

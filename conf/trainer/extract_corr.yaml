@@ -1,0 +1,14 @@
+### !! Must run with data=image_data
+defaults:
+  - choice_corr
+
+name: extract_corr${trainer.exp}
+type: imCorr
+exp: '_${trainer.backbone_model}_${trainer.tab_model}'
+
+im_model: im_extract
+
+encParam:
+  activation: tanh
+  added_latent_dim: 2
+  choice_layer: 'homogeneous'

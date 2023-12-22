@@ -1,0 +1,28 @@
+### !! Must run with data=image_data  ## Add assertion errors ?
+defaults:
+  - choice_detect_corr
+
+name: reversal_corr_id${trainer.exp}
+type: choice_detect_corr
+
+loss: ['cce','l2', 'cce2', 'l1']
+im_model: reversal
+
+param:
+  l1_lbda: 0
+  l2_lbda: 0.5
+  cce2_lbda: 0.1
+
+encParam:
+  detect_layer: 'linear'
+  choice_layer: 'linear'
+  activation: 'identity'
+  log_sigma_sq_scaler: 0 # for the KL loss, 0 gives a variance of 1! But -5 will ruin training => Investigate
+  sampling: False
+  #detect2Choice is set to False by default => the detection head has it's own cce2 choice loss
+  detect2Choice: False
+  added_latent_dim: 2
+  latent_dim_multiplier: 1
+  seq_scale: 4 # muliply hidden nodes for sequential module
+  # should pretrain with False:
+  reversal: True

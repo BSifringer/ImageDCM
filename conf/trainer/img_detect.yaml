@@ -1,0 +1,31 @@
+### !! Must run with data=image_data
+defaults:
+  - base_trainer
+
+name: img_detect${trainer.exp}
+type: detection
+exp: '_${trainer.backbone_model}'
+
+epochs: 10
+batch_size: 192
+loss: ['l2']
+
+# For transfer learning
+train_backbone: true
+#[Res50, Res18, AlexNet]
+backbone_model: Res18
+# Simplify labels by summing left and right detection:
+fuse_image_detection_labels: true
+
+# Batch and data
+drop_last: true
+shuffle: false
+num_workers: 6
+cuda: true
+
+param:
+  weight_decay: 0
+  lr: 0.001
+
+log:
+  check_every_n_epoch: 1

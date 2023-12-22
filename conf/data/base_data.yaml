@@ -1,0 +1,44 @@
+defaults:
+  - default_process # file paths
+
+name: base_data_${data.varChoice}
+
+varChoice: reduced # chooses list of variables found in data utils # depricated, for old tabular modeling, changin to default requires coding
+label: Saved # Label column name
+
+# Lists of Variables updated once all preprocessing is done (populated by varChoice):
+X_cols: # Keep Empty
+Z_cols: # Keep Empty
+# Prediction labels:
+n_choice: 2
+
+# Data loading [PairwiseTabular, IndexTabular, IndexImage]
+dataloader: PairwiseTabular 
+chunksize: 1000000 # dataset size ( half for pairwise )
+use_parquet: true # if true, will load parquet files instead of csv (faster)
+
+train_perc: 0.6
+test_perc: 0.2 # val = 1-train-test
+
+build_img_gpu: false
+# Updated in processing:
+image_shrink_factor: 2 # downsample factor from original images png
+img_height: # Keep Empty
+img_width: # Keep Empty
+
+loading_debug: false
+
+# [none, random, all]
+img_transforms: 'none'
+controlled_mask_p: 1 # probability of applying controlled mask
+controlled_mask_scale: 0.2 # scale of controlled mask / image surface
+
+# jitter tile coordinates in pixels
+jitter: 0
+
+# Note: some data transform options are in base_trainer.yaml
+
+# Simplify choice modeling task to one cohesive binary choice set:
+no_barrier_scenario: true # use only scenario 1s 
+load_scn1_only: true # load scneario 1s file when available 
+

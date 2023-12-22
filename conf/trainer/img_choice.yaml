@@ -1,0 +1,31 @@
+### !! Must run with data=image_data
+defaults:
+  - base_trainer
+
+name: img_choice${trainer.exp}
+type: img_choice
+exp: '_${trainer.backbone_model}'
+
+epochs: 10
+batch_size: 192
+loss: ['cce']
+
+# For transfer learning
+train_backbone: true
+#[Res50, Res18, AlexNet]
+backbone_model: Res18
+
+# Batch and data
+drop_last: true
+shuffle: false
+num_workers: 8
+cuda: true
+
+param:
+  weight_decay: 0
+  lr: 0.0001
+  utility_lr_multiplier: 20 #necessary due to class using same trainer (todo: seperate with an abstract class)
+
+log:
+  check_every_n_epoch: 1
+  every_n_iter: 150

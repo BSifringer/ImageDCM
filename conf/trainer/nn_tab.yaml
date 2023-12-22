@@ -1,0 +1,13 @@
+defaults:
+  - base_trainer
+
+name: nn_tab${trainer.exp}
+
+epochs: 100
+
+param:
+  n_neurons: 512
+  n_layers: 6
+  dropout_prob: 0.2
+  weight_decay: 1e-4
+  lr:  0.0001

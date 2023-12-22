@@ -1,0 +1,11 @@
+defaults:
+  - base_trainer
+
+name: lmnl_tab${trainer.exp}
+type: lmnl # careful, lmnl2 is type: survey
+loss: ['cce', 'l1']
+
+param:
+  n_neurons: 20
+  n_layers: 2
+  dropout_prob: 0.1

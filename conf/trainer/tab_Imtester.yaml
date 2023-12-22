@@ -1,0 +1,12 @@
+defaults:
+  - base_trainer
+
+name: tab_Imtester${trainer.exp}
+type: imtester
+
+loss: ['cce','l2', 'cce2', 'l1']
+
+param:
+  n_neurons: 20
+  n_layers: 2
+  dropout_prob: 0.1

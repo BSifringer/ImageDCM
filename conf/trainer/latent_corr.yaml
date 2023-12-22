@@ -1,0 +1,18 @@
+### !! Must run with data=image_data  ## Add assertion errors ?
+defaults:
+  - choice_detect_corr
+
+name: latent_corr${trainer.exp}
+type: choice_detect_corr
+
+loss: ['cce','l2', 'cce2', 'l1', 'beta']
+im_model: latent
+fuse_image_detection_labels: False
+
+
+encParam:
+  sampling: False
+  detect_layer: 'identity'
+  choice_layer: 'linear'
+  activation: 'identity'
+  detect2Choice: False

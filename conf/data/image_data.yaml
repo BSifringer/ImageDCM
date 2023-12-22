@@ -1,0 +1,21 @@
+defaults:
+  - base_data
+
+name: image_data_${data.varChoice}
+
+
+dataloader: IndexImage
+use_parquet: true
+
+build_img_gpu: false
+# Updated in processing:
+img_height:
+img_width:
+
+# [none, random, all]
+img_transforms: 'none'
+controlled_mask_p: 1
+controlled_mask_scale: 0.2
+
+# jitter tile coordinates in pixels
+jitter: 0

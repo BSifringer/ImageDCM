@@ -1,0 +1,32 @@
+# @package _global_
+defaults:
+  - override /trainer: tab_Imtester
+  - override /data: base_data
+
+trainer:
+  exp:  '_remove'
+  tabular_masking: 'remove'
+  masked_tabular_list: ['CrossingSignal']
+  # loss: ['cce','l2', 'cce2', 'l1', 'beta']
+  loss: ['cce','l2', 'cce2', 'l1']
+
+
+# Log and save settings
+  log:
+    every_n_iter: 1000 #iteration logging
+    check_every_n_epoch: 20 # checkpointing
+
+
+  param:
+    l1_lbda: 0.0001
+    l2_lbda: 20
+    cce2_lbda: 5
+    # weight_decay: 0.01
+
+  encParam:
+    activation: 'GRU'
+    added_latent_dim: 2
+    detect_layer: 'linear'
+    latent_dim_multiplier: 1
+
+# Run this experiment with: python run.py +exps=base_masking

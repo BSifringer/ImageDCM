@@ -1,0 +1,11 @@
+# @package _global_
+defaults:
+  - override /trainer: base_trainer
+  - override /data: base_data
+
+trainer:
+  exp:  '_reduce'
+  tabular_masking: 'reduce' # adds  detailed characters to the  simpler character count. The detailed character values can then be seen as detail residuals 
+  masked_tabular_list: ['MaleExecutive','MaleDoctor','MaleAthlete']
+
+# Run this experiment with: python run.py +exps=base_masking

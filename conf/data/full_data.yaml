@@ -1,0 +1,8 @@
+defaults:
+  - base_data
+
+name: full_data_${data.varChoice}
+
+dataloader: IndexTabular
+chunksize:
+use_parquet: true

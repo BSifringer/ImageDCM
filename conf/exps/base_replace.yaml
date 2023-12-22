@@ -1,0 +1,11 @@
+# @package _global_
+defaults:
+  - override /trainer: base_trainer
+  - override /data: base_data
+
+trainer:
+  exp:  '_replace'
+  tabular_masking: 'replace' # complex characters are turned into simpler ones
+  masked_tabular_list: ['MaleExecutive','MaleDoctor','MaleAthlete']
+
+# Run this experiment with: python run.py +exps=base_replace

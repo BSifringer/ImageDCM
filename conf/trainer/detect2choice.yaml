@@ -1,0 +1,32 @@
+### !! Must run with data=image_data
+defaults:
+  - base_trainer
+
+name: detect2choice${trainer.exp}
+type: choice_detect
+exp: '_${trainer.backbone_model}'
+
+epochs: 15
+batch_size: 192
+loss: ['cce','l2']
+
+# For transfer learning
+train_backbone: true
+#[Res50, Res18, AlexNet]
+backbone_model: Res18
+# Simplify labels by summing left and right detection:
+fuse_image_detection_labels: false
+
+# Batch and data
+drop_last: true
+shuffle: false
+num_workers: 8
+cuda: true
+
+param:
+  weight_decay: 0
+  lr: 0.001
+
+log:
+  check_every_n_epoch: 1
+  every_n_iter: 150

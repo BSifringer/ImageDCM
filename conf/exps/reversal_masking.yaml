@@ -1,0 +1,9 @@
+# @package _global_
+defaults:
+  - override /trainer: reversal
+  - override /data: image_data
+
+trainer:
+  exp: '_remove'
+  tabular_masking: 'remove'
+  masked_tabular_list: ['CrossingSignal']

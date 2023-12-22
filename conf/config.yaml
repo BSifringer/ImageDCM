@@ -1,0 +1,32 @@
+defaults:
+  - trainer: base_trainer
+  - data: base_data
+  - platform: local
+  - _self_
+
+# project_name: 'ImageCorrelationState'
+project_name: 'ImageCorrelationScenario1'
+# hydra:
+#   _allow_omegaconf_edit_: true
+
+hydra:
+  run:
+    # save first per train/data names instead of date
+    dir: ${trainer.output_dir}/${trainer.sync_key}
+
+  # Sweeps should have better accessibility? => Affects Cluster runs most:
+  sweep:
+    dir: ${trainer.output_dir}
+    subdir: ${hydra.job.override_dirname}
+
+  # Remove job override key-names from entering the subdir naming
+  job:
+    config:
+      override_dirname:
+        exclude_keys:
+          - trainer.seed
+          - trainer.checkpointpath
+          - platform
+          - trainer.masked_tabular_list
+          - trainer.black_masking
+          - trainer.loss

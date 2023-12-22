@@ -1,0 +1,27 @@
+
+#Data files (reconfigure raw_path line when running different machine):
+raw_path: /data/brian-data/moralMachine_datasets
+
+# Required files:
+survey_file: ${data.raw_path}/SharedResponsesSurvey.csv
+full_file: ${data.raw_path}/SharedResponses.csv.tar.gz
+first_sessions_file: ${data.raw_path}/SharedResponsesFullFirstSessions.csv.tar.gz
+
+# Merge Path:
+merged_file: ${data.raw_path}/SharedResponseMerged.csv
+# File used for experiments:
+end_file: ${data.raw_path}/SortedMerged_low.csv
+parquet_file:  ${data.raw_path}/SortedMerged_low.parquet
+
+tiles_folder: ${data.raw_path}/tiles_extracted # TILES NEEDED FOR IMAGE RELATED EXPERIMENTS
+
+dtypes_dict_path: ${data.raw_path}/SortedMerged_low_dtypes.pkl
+
+# Turn to true if you wish to re-run merging despite existing files
+merge_files: false
+merge_chunksize: 5000000 # Preprocess main csv by chunks for RAM purposes
+
+preprocess_data: true  # Perform operations on merged file and sorts by ResponseID
+save_parquet_file: true # This will save a parquet file (faster loading time when loading full data)
+barrier_keep: false # keep scenarios with barrier
+no_barrier_file_ext: _scn1 #scenario 1s only
